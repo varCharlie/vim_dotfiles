@@ -25,6 +25,7 @@ Plug 'henrik/vim-indexed-search'
 Plug 'jergason/scala.vim'
 Plug 'jgdavey/vim-turbux'
 Plug 'drewolson/vim_dotfiles', {'rtp': 'vim/bundle/bufexplorer'}
+Plug 'ervandew/supertab'
 Plug 'jtratner/vim-flavored-markdown'
 Plug 'kchmck/vim-coffee-script'
 Plug 'kien/ctrlp.vim'
