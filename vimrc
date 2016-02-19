@@ -196,6 +196,10 @@ xnoremap <expr> p 'pgv"'.v:register.'y'
 
 imap <C-L> <SPACE>=><SPACE>
 
+" ========= Vimrc Shortcuts ========
+
+nnoremap <LocalLeader>rr :source $HOME/.vim/ftplugin/java.vim<CR>
+
 " ========= Functions ========
 
 command! SudoW w !sudo tee %
