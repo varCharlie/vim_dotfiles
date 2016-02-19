@@ -34,7 +34,7 @@ set dir=/tmp//
 set scrolloff=5
 set ignorecase
 set smartcase
-set wildignore+=*.pyc,*.o,*.class,*.lo,.git,vendor/*,node_modules/**,bower_components/**,*/build_gradle/*,*/build_intellij/*,*/build/*,*/cassandra_data/*
+set wildignore+=*.pyc,*.o,*.class,*.lo,.git,vendor/*,node_modules/**,bower_components/**,*/build_gradle/*,*/build_intellij/*,*/build/*,*/cassandra_data/*,*.iml,*.eml,*.classpath,*.project
 set tags+=gems.tags
 
 if version >= 703
