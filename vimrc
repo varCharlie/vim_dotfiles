@@ -45,23 +45,6 @@ if version >= 703
 endif
 set undolevels=1000 "maximum number of changes that can be undone
 
-" Color
-colorscheme vibrantink
-
-au FileType diff colorscheme desert
-au FileType git colorscheme desert
-au BufWinLeave * colorscheme vibrantink
-
-augroup markdown
-  au!
-  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
-augroup END
-augroup Drakefile
-  au!
-  au BufNewFile,BufRead Drakefile,drakefile setlocal filetype=ruby
-augroup END
-
-" File Types
 
 autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
@@ -78,38 +61,6 @@ if version >= 700
     autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
     autocmd FileType tex setlocal spell spelllang=en_us
 endif
-
-" Highlight trailing whitespace
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd BufRead,InsertLeave * match ExtraWhitespace /\s\+$/
-
-" Use folding but start unfolded
-set foldmethod=indent
-autocmd BufWinEnter * silent! :%foldopen!
-
-" Autoremove trailing spaces when saving the buffer
-autocmd FileType c,cpp,elixir,eruby,html,java,javascript,php,ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
-
-" Highlight too-long lines
-autocmd BufRead,InsertEnter,InsertLeave * 2match LineLengthError /\%126v.*/
-highlight LineLengthError ctermbg=black guibg=black
-autocmd ColorScheme * highlight LineLengthError ctermbg=black guibg=black
-
-" Set up highlight group & retain through colorscheme changes
-highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-
-" Status
-set laststatus=2
-set statusline=
-set statusline+=%<\                       " cut at start
-set statusline+=%2*[%n%H%M%R%W]%*\        " buffer number, and flags
-set statusline+=%-40f\                    " relative path
-set statusline+=%=                        " seperate between right- and left-aligned
-set statusline+=%1*%y%*%*\                " file type
-set statusline+=%10(L(%l/%L)%)\           " line
-set statusline+=%2(C(%v/125)%)\           " column
-set statusline+=%P                        " percentage of file
 
 " ========= Plugin Options ========
 
