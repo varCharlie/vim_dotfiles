@@ -33,14 +33,12 @@ set wrap
 set dir=/tmp//
 set scrolloff=5
 set ignorecase
-set smartcase
 set wildignore+=*.pyc,*.o,*.class,*.lo,.git
 set tags+=gems.tags
 set mouse=
 
 if version >= 703
   set undodir=~/.vim/undodir
-  set undofile
   set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 endif
 set undolevels=1000 "maximum number of changes that can be undone
