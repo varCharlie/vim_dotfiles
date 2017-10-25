@@ -8,12 +8,10 @@ else
   call plug#begin('~/.vim/plugged')
 endif
 
-Plug 'benmills/vimux'
 Plug 'bkad/CamelCaseMotion'
 Plug 'braintreeps/command-t', { 'do': 'rake make' }
 Plug 'mattn/emmet-vim'
 Plug 'henrik/vim-indexed-search'
-Plug 'vim-scripts/matchit.zip'
 Plug 'scrooloose/nerdtree'
 Plug 'voxpupuli/vim-puppet', { 'commit': 'e88c19bf10763b30f86b7417677f59a9c9487fa2' }
 Plug 'chase/vim-ansible-yaml'
@@ -30,7 +28,6 @@ Plug 'google/vim-jsonnet'
 Plug 'guns/vim-clojure-highlight'
 Plug 'guns/vim-clojure-static'
 Plug 'jergason/scala.vim'
-Plug 'jgdavey/vim-turbux'
 Plug 'hashivim/vim-terraform'
 Plug 'jlanzarotta/bufexplorer', { 'commit': 'f3bbe12664b08038912faac586f6c0b5104325c3' }
 Plug 'jtratner/vim-flavored-markdown'
