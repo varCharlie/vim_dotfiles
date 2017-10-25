@@ -33,9 +33,14 @@ set wrap
 set dir=/tmp//
 set scrolloff=5
 set ignorecase
-set wildignore+=*.pyc,*.o,*.class,*.lo,.git
+set smartcase
+set wildignore+=*.pyc,*.o,*.class,*.lo,.git,vendor/*,node_modules/**,bower_components/**,*/build_gradle/*,*/build_intellij/*,*/build/*,*/cassandra_data/*
 set tags+=gems.tags
 set mouse=
+set ttymouse=
+set backupcopy=yes " Setting backup copy preserves file inodes, which are needed for Docker file mounting
+set signcolumn=yes
+set complete-=t " Don't use tags for autocomplete
 
 if version >= 703
   set undodir=~/.vim/undodir
@@ -43,6 +48,10 @@ if version >= 703
 endif
 set undolevels=1000 "maximum number of changes that can be undone
 
+augroup Drakefile
+  au!
+  au BufNewFile,BufRead Drakefile,drakefile setlocal filetype=ruby
+augroup END
 
 autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
@@ -60,6 +69,27 @@ autocmd FileType python runtime python_mappings.vim
 let g:AckAllFiles = 0
 let g:AckCmd = 'ack --type-add ruby=.feature --ignore-dir=tmp 2> /dev/null'
 
+" Side Search {{{
+let g:side_search_prg = 'ack-grep --word-regexp'
+       \. " --heading -C 2 --group"
+let g:side_search_splitter = 'vnew'
+let g:side_search_split_pct = 0.4
+
+" SideSearch current word and return to original window
+nnoremap <Leader>ss :SideSearch <C-r><C-w><CR> | wincmd p
+
+" SS shortcut and return to original 
+ command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
+" }}}
+
+let g:ale_enabled = 0                     " Disable linting by default
+let g:ale_lint_on_text_changed = 'normal' " Only lint while in normal mode
+let g:ale_lint_on_insert_leave = 1        " Automatically lint when leaving insert mode
+
+let g:ale_linters = {
+\   'java': []
+\ }
+
 let html_use_css=1
 let html_number_lines=0
 let html_no_pre=1
@@ -68,7 +98,7 @@ let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 
 let g:rubycomplete_buffer_loading = 1
-
+let g:ruby_indent_assignment_style = 'variable'
 
 let g:no_html_toolbar = 'yes'
 
@@ -81,14 +111,14 @@ let g:netrw_banner = 0
 
 let g:VimuxUseNearestPane = 1
 
-let g:CommandTMaxHeight = 15
-let g:CommandTMatchWindowAtTop = 1
-let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
-let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-let g:CommandTWildIgnore=&wildignore . ",vendor/*,node_modules/**,bower_components/**"
-
-let g:vim_markdown_folding_disabled=1
+let g:rails_projections = {
+      \   "script/*.rb": { 
+      \     "test": "spec/script/{}_spec.rb"
+      \   },
+      \   "spec/script/*_spec.rb": {
+      \     "alternate": "script/{}.rb"
+      \   }
+      \ }
 
 if exists(':RainbowParenthesesToggle')
   autocmd VimEnter *       RainbowParenthesesToggle
@@ -99,20 +129,28 @@ endif
 
 let g:puppet_align_hashes = 0
 
+let $FZF_DEFAULT_COMMAND = 'find * -type f 2>/dev/null | grep -v -E "deps/|_build/|node_modules/|vendor/|build_intellij/"' 
+let $FZF_DEFAULT_OPTS = '--reverse'
+let g:fzf_tags_command = 'ctags -R --exclude=".git\|.svn\|log\|tmp\|db\|pkg" --extra=+f --langmap=Lisp:+.clj'
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let g:vim_markdown_folding_disabled = 1
+
+let g:go_fmt_command = "goimports"
+let g:go_highlight_trailing_whitespace_error = 0
+
+let g:completor_auto_trigger = 0
+
 " ========= Shortcuts ========
 
 " NERDTree
 map <silent> <LocalLeader>nt :NERDTreeToggle<CR>
 map <silent> <LocalLeader>nr :NERDTree<CR>
 map <silent> <LocalLeader>nf :NERDTreeFind<CR>
-
-" CommandT
-map <silent> <leader>ff :CommandT<CR>
-map <silent> <leader>fb :CommandTBuffer<CR>
-map <silent> <leader>fr :CommandTFlush<CR>
-
-" Ack
-map <LocalLeader>aw :Ack '<C-R><C-W>'
 
 " TComment
 map <silent> <LocalLeader>cc :TComment<CR>
@@ -147,14 +185,8 @@ nnoremap <silent> Y y$
 
 map <silent> <LocalLeader>ws :highlight clear ExtraWhitespace<CR>
 
-map <silent> <LocalLeader>pp :set paste!<CR>
-
 " Pasting over a selection does not replace the clipboard
 xnoremap <expr> p 'pgv"'.v:register.'y'
-
-" ========= Insert Shortcuts ========
-
-imap <C-L> <SPACE>=><SPACE>
 
 " ========= Functions ========
 
@@ -209,15 +241,15 @@ function! __Edge()
 endfunction
 
 function! __HardMode()
-  nmap h <nop>
-  nmap j <nop>
-  nmap k <nop>
-  nmap l <nop>
   nmap <up> <nop>
   nmap <down> <nop>
   nmap <left> <nop>
   nmap <right> <nop>
 endfunction
+
+" ========= Aliases ========
+
+command! W w
 
 "-------- Local Overrides
 ""If you have options you'd like to override locally for
