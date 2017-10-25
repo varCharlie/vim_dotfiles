@@ -121,10 +121,7 @@ let g:rails_projections = {
       \ }
 
 if exists(':RainbowParenthesesToggle')
-  autocmd VimEnter *       RainbowParenthesesToggle
-  autocmd Syntax   clojure RainbowParenthesesLoadRound
-  autocmd Syntax   clojure RainbowParenthesesLoadSquare
-  autocmd Syntax   clojure RainbowParenthesesLoadBraces
+  autocmd ColorScheme * RainbowParenthesesToggleAll
 endif
 
 let g:puppet_align_hashes = 0
